@@ -1,0 +1,18 @@
+--- net/ipv4/igmp.c
++++ net/ipv4/igmp.c
+@@ -946,7 +946,6 @@
+ 		break;
+ 	case IGMP_HOST_MEMBERSHIP_REPORT:
+ 	case IGMPV2_HOST_MEMBERSHIP_REPORT:
+-	case IGMPV3_HOST_MEMBERSHIP_REPORT:
+ 		/* Is it our report looped back? */
+ 		if (skb_rtable(skb)->fl.iif == 0)
+ 			break;
+@@ -960,6 +959,7 @@
+ 		in_dev_put(in_dev);
+ 		return pim_rcv_v1(skb);
+ #endif
++	case IGMPV3_HOST_MEMBERSHIP_REPORT:
+ 	case IGMP_DVMRP:
+ 	case IGMP_TRACE:
+ 	case IGMP_HOST_LEAVE_MESSAGE:

@@ -1,0 +1,10 @@
+--- drivers/gpu/drm/i915/i915_drv.h
++++ drivers/gpu/drm/i915/i915_drv.h
+@@ -546,7 +537,6 @@
+ 	struct timer_list idle_timer;
+ 	bool busy;
+ 	u16 orig_clock;
+-	struct drm_connector *int_lvds_connector;
+ } drm_i915_private_t;
+ 
+ /** driver private structure attached to each drm_gem_object */

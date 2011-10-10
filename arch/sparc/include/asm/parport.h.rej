@@ -1,0 +1,13 @@
+--- arch/sparc/include/asm/parport.h
++++ arch/sparc/include/asm/parport.h
+@@ -228,6 +228,10 @@
+ 		.name = "parallel",
+ 		.compatible = "ns87317-ecpp",
+ 	},
++	{
++		.name = "parallel",
++		.compatible = "pnpALI,1533,3",
++	},
+ 	{},
+ };
+ 

@@ -1,0 +1,11 @@
+--- fs/pipe.c
++++ fs/pipe.c
+@@ -363,7 +363,7 @@
+ 			error = ops->confirm(pipe, buf);
+ 			if (error) {
+ 				if (!ret)
+-					error = ret;
++					ret = error;
+ 				break;
+ 			}
+ 

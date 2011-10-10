@@ -1,0 +1,12 @@
+--- arch/ia64/ia32/sys_ia32.c
++++ arch/ia64/ia32/sys_ia32.c
+@@ -858,9 +858,6 @@
+ 
+ 	prot = get_prot32(prot);
+ 
+-	if (flags & MAP_HUGETLB)
+-		return -ENOMEM;
+-
+ #if PAGE_SHIFT > IA32_PAGE_SHIFT
+ 	mutex_lock(&ia32_mmap_mutex);
+ 	{

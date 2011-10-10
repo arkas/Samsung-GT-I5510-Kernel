@@ -1,0 +1,10 @@
+--- arch/x86/xen/smp.c
++++ arch/x86/xen/smp.c
+@@ -295,7 +295,6 @@
+ 		(unsigned long)task_stack_page(idle) -
+ 		KERNEL_STACK_OFFSET + THREAD_SIZE;
+ #endif
+-	xen_setup_runstate_info(cpu);
+ 	xen_setup_timer(cpu);
+ 	xen_init_lock_cpu(cpu);
+ 

@@ -1,0 +1,11 @@
+--- arch/sparc/kernel/process_32.c
++++ arch/sparc/kernel/process_32.c
+@@ -526,7 +526,7 @@
+ 			 * Set some valid stack frames to give to the child.
+ 			 */
+ 			childstack = (struct sparc_stackf __user *)
+-				(sp & ~0x7UL);
++				(sp & ~0xfUL);
+ 			parentstack = (struct sparc_stackf __user *)
+ 				regs->u_regs[UREG_FP];
+ 

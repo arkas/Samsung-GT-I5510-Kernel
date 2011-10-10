@@ -1,0 +1,11 @@
+--- arch/ia64/sn/kernel/msi_sn.c
++++ arch/ia64/sn/kernel/msi_sn.c
+@@ -174,7 +174,7 @@
+ 	 * Release XIO resources for the old MSI PCI address
+ 	 */
+ 
+-	read_msi_msg(irq, &msg);
++	get_cached_msi_msg(irq, &msg);
+         sn_pdev = (struct pcidev_info *)sn_irq_info->irq_pciioinfo;
+ 	pdev = sn_pdev->pdi_linux_pcidev;
+ 	provider = SN_PCIDEV_BUSPROVIDER(pdev);

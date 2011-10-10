@@ -1,0 +1,12 @@
+--- arch/powerpc/kvm/powerpc.c
++++ arch/powerpc/kvm/powerpc.c
+@@ -176,7 +176,8 @@
+ {
+ 	struct kvm_vcpu *vcpu;
+ 	vcpu = kvmppc_core_vcpu_create(kvm, id);
+-	kvmppc_create_vcpu_debugfs(vcpu, id);
++	if (!IS_ERR(vcpu))
++		kvmppc_create_vcpu_debugfs(vcpu, id);
+ 	return vcpu;
+ }
+ 

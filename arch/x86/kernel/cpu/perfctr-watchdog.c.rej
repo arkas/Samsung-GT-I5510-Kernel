@@ -1,0 +1,11 @@
+--- arch/x86/kernel/cpu/perfctr-watchdog.c
++++ arch/x86/kernel/cpu/perfctr-watchdog.c
+@@ -712,7 +712,7 @@
+ 	switch (boot_cpu_data.x86_vendor) {
+ 	case X86_VENDOR_AMD:
+ 		if (boot_cpu_data.x86 != 6 && boot_cpu_data.x86 != 15 &&
+-		    boot_cpu_data.x86 != 16 && boot_cpu_data.x86 != 17)
++		    boot_cpu_data.x86 != 16)
+ 			return;
+ 		wd_ops = &k7_wd_ops;
+ 		break;

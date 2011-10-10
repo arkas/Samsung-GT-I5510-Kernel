@@ -1,0 +1,20 @@
+--- mm/vmscan.c
++++ mm/vmscan.c
+@@ -1218,14 +1260,9 @@
+ 		nr_scanned += nr_scan;
+ 		nr_freed = shrink_page_list(&page_list, sc, PAGEOUT_IO_ASYNC);
+ 
+-		/*
+-		 * If we are direct reclaiming for contiguous pages and we do
+-		 * not reclaim everything in the list, try again and wait
+-		 * for IO to complete. This will stall high-order allocations
+-		 * but that should be acceptable to the caller
+-		 */
+-		if (nr_freed < nr_taken && !current_is_kswapd() &&
+-		    lumpy_reclaim) {
++		/* Check if we should syncronously wait for writeback */
++		if (should_reclaim_stall(nr_taken, nr_freed, priority,
++					lumpy_reclaim, sc)) {
+ 			congestion_wait(BLK_RW_ASYNC, HZ/10);
+ 
+ 			/*

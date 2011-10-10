@@ -1,0 +1,11 @@
+--- arch/x86/kernel/syscall_table_32.S
++++ arch/x86/kernel/syscall_table_32.S
+@@ -191,7 +191,7 @@
+ 	.long sys_ni_syscall	/* reserved for streams2 */
+ 	.long ptregs_vfork	/* 190 */
+ 	.long sys_getrlimit
+-	.long sys_mmap_pgoff
++	.long sys_mmap2
+ 	.long sys_truncate64
+ 	.long sys_ftruncate64
+ 	.long sys_stat64	/* 195 */

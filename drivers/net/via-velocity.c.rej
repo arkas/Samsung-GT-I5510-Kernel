@@ -1,0 +1,33 @@
+--- drivers/net/via-velocity.c
++++ drivers/net/via-velocity.c
+@@ -2186,8 +2186,6 @@
+ 	/* Ensure chip is running */
+ 	pci_set_power_state(vptr->pdev, PCI_D0);
+ 
+-	velocity_give_many_rx_descs(vptr);
+-
+ 	velocity_init_registers(vptr, VELOCITY_INIT_COLD);
+ 
+ 	ret = request_irq(vptr->pdev->irq, &velocity_intr, IRQF_SHARED,
+@@ -2199,6 +2197,8 @@
+ 		goto out;
+ 	}
+ 
++	velocity_give_many_rx_descs(vptr);
++
+ 	mac_enable_int(vptr->mac_regs);
+ 	netif_start_queue(dev);
+ 	vptr->flags |= VELOCITY_FLAGS_OPENED;
+@@ -2287,10 +2287,10 @@
+ 
+ 		dev->mtu = new_mtu;
+ 
+-		velocity_give_many_rx_descs(vptr);
+-
+ 		velocity_init_registers(vptr, VELOCITY_INIT_COLD);
+ 
++		velocity_give_many_rx_descs(vptr);
++
+ 		mac_enable_int(vptr->mac_regs);
+ 		netif_start_queue(dev);
+ 

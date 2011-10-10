@@ -1,0 +1,25 @@
+--- sound/core/hrtimer.c
++++ sound/core/hrtimer.c
+@@ -37,22 +37,14 @@
+ struct snd_hrtimer {
+ 	struct snd_timer *timer;
+ 	struct hrtimer hrt;
+-	atomic_t running;
+ };
+ 
+ static enum hrtimer_restart snd_hrtimer_callback(struct hrtimer *hrt)
+ {
+ 	struct snd_hrtimer *stime = container_of(hrt, struct snd_hrtimer, hrt);
+ 	struct snd_timer *t = stime->timer;
+-
+-	if (!atomic_read(&stime->running))
+-		return HRTIMER_NORESTART;
+-
+ 	hrtimer_forward_now(hrt, ns_to_ktime(t->sticks * resolution));
+ 	snd_timer_interrupt(stime->timer, t->sticks);
+-
+-	if (!atomic_read(&stime->running))
+-		return HRTIMER_NORESTART;
+ 	return HRTIMER_RESTART;
+ }
+ 

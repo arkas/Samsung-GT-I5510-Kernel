@@ -1,0 +1,12 @@
+--- arch/powerpc/kernel/vmlinux.lds.S
++++ arch/powerpc/kernel/vmlinux.lds.S
+@@ -38,9 +38,6 @@
+ #endif
+ SECTIONS
+ {
+-	. = 0;
+-	reloc_start = .;
+-
+ 	. = KERNELBASE;
+ 
+ /*

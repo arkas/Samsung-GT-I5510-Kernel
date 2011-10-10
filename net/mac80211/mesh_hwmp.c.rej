@@ -1,0 +1,11 @@
+--- net/mac80211/mesh_hwmp.c
++++ net/mac80211/mesh_hwmp.c
+@@ -813,7 +813,7 @@
+ 	}
+ 
+ 	if (mpath->flags & MESH_PATH_ACTIVE) {
+-		if (time_after(jiffies, mpath->exp_time -
++		if (time_after(jiffies, mpath->exp_time +
+ 			msecs_to_jiffies(sdata->u.mesh.mshcfg.path_refresh_time))
+ 				&& !memcmp(sdata->dev->dev_addr, hdr->addr4,
+ 					   ETH_ALEN)

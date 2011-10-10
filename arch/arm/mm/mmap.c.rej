@@ -1,0 +1,12 @@
+--- arch/arm/mm/mmap.c
++++ arch/arm/mm/mmap.c
+@@ -54,8 +54,7 @@
+ 	 * We enforce the MAP_FIXED case.
+ 	 */
+ 	if (flags & MAP_FIXED) {
+-		if (aliasing && flags & MAP_SHARED &&
+-		    (addr - (pgoff << PAGE_SHIFT)) & (SHMLBA - 1))
++		if (aliasing && flags & MAP_SHARED && addr & (SHMLBA - 1))
+ 			return -EINVAL;
+ 		return addr;
+ 	}

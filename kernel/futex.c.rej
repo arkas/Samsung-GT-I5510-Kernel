@@ -1,0 +1,11 @@
+--- kernel/futex.c
++++ kernel/futex.c
+@@ -221,7 +221,7 @@
+ 	unsigned long address = (unsigned long)uaddr;
+ 	struct mm_struct *mm = current->mm;
+ 	struct page *page;
+-	int err;
++	int err, ro = 0;
+ 
+ 	/*
+ 	 * The futex address must be "naturally" aligned.

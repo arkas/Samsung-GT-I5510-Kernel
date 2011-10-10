@@ -1,0 +1,55 @@
+--- fs/exec.c
++++ fs/exec.c
+@@ -628,24 +625,10 @@
+ 			goto out_unlock;
+ 	}
+ 
+-	stack_expand = EXTRA_STACK_VM_PAGES * PAGE_SIZE;
+-	stack_size = vma->vm_end - vma->vm_start;
+-	/*
+-	 * Align this down to a page boundary as expand_stack
+-	 * will align it up.
+-	 */
+-	rlim_stack = rlimit(RLIMIT_STACK) & PAGE_MASK;
+-	rlim_stack = min(rlim_stack, stack_size);
+ #ifdef CONFIG_STACK_GROWSUP
+-	if (stack_size + stack_expand > rlim_stack)
+-		stack_base = vma->vm_start + rlim_stack;
+-	else
+-		stack_base = vma->vm_end + stack_expand;
++	stack_base = vma->vm_end + EXTRA_STACK_VM_PAGES * PAGE_SIZE;
+ #else
+-	if (stack_size + stack_expand > rlim_stack)
+-		stack_base = vma->vm_end - rlim_stack;
+-	else
+-		stack_base = vma->vm_start - stack_expand;
++	stack_base = vma->vm_start - EXTRA_STACK_VM_PAGES * PAGE_SIZE;
+ #endif
+ 	ret = expand_stack(vma, stack_base);
+ 	if (ret)
+@@ -968,25 +953,6 @@
+ 
+ 	bprm->mm = NULL;		/* We're using it now */
+ 
+-	current->flags &= ~PF_RANDOMIZE;
+-	flush_thread();
+-	current->personality &= ~bprm->per_clear;
+-
+-	return 0;
+-
+-out:
+-	return retval;
+-}
+-EXPORT_SYMBOL(flush_old_exec);
+-
+-void setup_new_exec(struct linux_binprm * bprm)
+-{
+-	int i, ch;
+-	char * name;
+-	char tcomm[sizeof(current->comm)];
+-
+-	arch_pick_mmap_layout(current->mm);
+-
+ 	/* This is the point of no return */
+ 	current->sas_ss_sp = current->sas_ss_size = 0;
+ 

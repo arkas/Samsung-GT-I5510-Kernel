@@ -1,0 +1,62 @@
+--- kernel/sched.c
++++ kernel/sched.c
+@@ -2034,9 +2030,6 @@
+ {
+ 	s64 delta;
+ 
+-	if (p->sched_class != &fair_sched_class)
+-		return 0;
+-
+ 	/*
+ 	 * Buddy candidates are cache hot:
+ 	 */
+@@ -2443,17 +2439,6 @@
+ #ifdef CONFIG_SMP
+ 	if (p->sched_class->task_wake_up)
+ 		p->sched_class->task_wake_up(rq, p);
+-
+-	if (unlikely(rq->idle_stamp)) {
+-		u64 delta = rq->clock - rq->idle_stamp;
+-		u64 max = 2*sysctl_sched_migration_cost;
+-
+-		if (delta > max)
+-			rq->avg_idle = max;
+-		else
+-			update_avg(&rq->avg_idle, delta);
+-		rq->idle_stamp = 0;
+-	}
+ #endif
+ out:
+ 	task_rq_unlock(rq, &flags);
+@@ -7069,7 +7051,7 @@
+ 	int ret = 0;
+ 
+ 	rq = task_rq_lock(p, &flags);
+-	if (!cpumask_intersects(new_mask, cpu_active_mask)) {
++	if (!cpumask_intersects(new_mask, cpu_online_mask)) {
+ 		ret = -EINVAL;
+ 		goto out;
+ 	}
+@@ -7245,19 +7227,19 @@
+ 
+ again:
+ 	/* Look for allowed, online CPU in same node. */
+-	for_each_cpu_and(dest_cpu, nodemask, cpu_active_mask)
++	for_each_cpu_and(dest_cpu, nodemask, cpu_online_mask)
+ 		if (cpumask_test_cpu(dest_cpu, &p->cpus_allowed))
+ 			goto move;
+ 
+ 	/* Any allowed, online CPU? */
+-	dest_cpu = cpumask_any_and(&p->cpus_allowed, cpu_active_mask);
++	dest_cpu = cpumask_any_and(&p->cpus_allowed, cpu_online_mask);
+ 	if (dest_cpu < nr_cpu_ids)
+ 		goto move;
+ 
+ 	/* No more Mr. Nice Guy. */
+ 	if (dest_cpu >= nr_cpu_ids) {
+ 		cpuset_cpus_allowed_locked(p, &p->cpus_allowed);
+-		dest_cpu = cpumask_any_and(cpu_active_mask, &p->cpus_allowed);
++		dest_cpu = cpumask_any_and(cpu_online_mask, &p->cpus_allowed);
+ 
+ 		/*
+ 		 * Don't tell them about moving exiting tasks or

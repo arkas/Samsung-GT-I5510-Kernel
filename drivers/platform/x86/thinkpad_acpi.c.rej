@@ -1,0 +1,41 @@
+--- drivers/platform/x86/thinkpad_acpi.c
++++ drivers/platform/x86/thinkpad_acpi.c
+@@ -3908,9 +3917,10 @@
+ #endif
+ 
+ 	/* We make sure to keep TP_ACPI_BLUETOOTH_RESUMECTRL off */
+-	status = TP_ACPI_BLUETOOTH_RESUMECTRL;
+ 	if (state == TPACPI_RFK_RADIO_ON)
+-		status |= TP_ACPI_BLUETOOTH_RADIOSSW;
++		status = TP_ACPI_BLUETOOTH_RADIOSSW;
++	else
++		status = 0;
+ 
+ 	if (!acpi_evalf(hkey_handle, NULL, "SBDC", "vd", status))
+ 		return -EIO;
+@@ -4108,10 +4128,11 @@
+ 	}
+ #endif
+ 
+-	/* We make sure to set TP_ACPI_WANCARD_RESUMECTRL */
+-	status = TP_ACPI_WANCARD_RESUMECTRL;
++	/* We make sure to keep TP_ACPI_WANCARD_RESUMECTRL off */
+ 	if (state == TPACPI_RFK_RADIO_ON)
+-		status |= TP_ACPI_WANCARD_RADIOSSW;
++		status = TP_ACPI_WANCARD_RADIOSSW;
++	else
++		status = 0;
+ 
+ 	if (!acpi_evalf(hkey_handle, NULL, "SWAN", "vd", status))
+ 		return -EIO;
+@@ -6121,8 +6143,8 @@
+ 
+ 	/* Models with Intel Extreme Graphics 2 */
+ 	TPACPI_Q_IBM('1', 'U', TPACPI_BRGHT_Q_NOEC),
+-	TPACPI_Q_IBM('1', 'V', TPACPI_BRGHT_Q_ASK|TPACPI_BRGHT_Q_EC),
+-	TPACPI_Q_IBM('1', 'W', TPACPI_BRGHT_Q_ASK|TPACPI_BRGHT_Q_EC),
++	TPACPI_Q_IBM('1', 'V', TPACPI_BRGHT_Q_ASK|TPACPI_BRGHT_Q_NOEC),
++	TPACPI_Q_IBM('1', 'W', TPACPI_BRGHT_Q_ASK|TPACPI_BRGHT_Q_NOEC),
+ 
+ 	/* Models with Intel GMA900 */
+ 	TPACPI_Q_IBM('7', '0', TPACPI_BRGHT_Q_NOEC),	/* T43, R52 */

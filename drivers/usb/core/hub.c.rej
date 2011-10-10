@@ -1,0 +1,13 @@
+--- drivers/usb/core/hub.c
++++ drivers/usb/core/hub.c
+@@ -1757,8 +1757,8 @@
+ 	if (udev->parent)
+ 		usb_autoresume_device(udev->parent);
+ 
+-	usb_detect_quirks(udev);
+-	err = usb_enumerate_device(udev);	/* Read descriptors */
++	usb_detect_quirks(udev);		/* Determine quirks */
++	err = usb_configure_device(udev);	/* detect & probe dev/intfs */
+ 	if (err < 0)
+ 		goto fail;
+ 	dev_dbg(&udev->dev, "udev %d, busnum %d, minor = %d\n",

@@ -1,0 +1,37 @@
+--- drivers/char/agp/intel-agp.c
++++ drivers/char/agp/intel-agp.c
+@@ -178,7 +178,6 @@
+ 	 * popup and for the GTT.
+ 	 */
+ 	int gtt_entries;			/* i830+ */
+-	int gtt_total_size;
+ 	union {
+ 		void __iomem *i9xx_flush_page;
+ 		void *i8xx_flush_page;
+@@ -1154,7 +1153,7 @@
+ 	readl(intel_private.registers+I810_PGETBL_CTL);	/* PCI Posting. */
+ 
+ 	if (agp_bridge->driver->needs_scratch_page) {
+-		for (i = intel_private.gtt_entries; i < intel_private.gtt_total_size; i++) {
++		for (i = intel_private.gtt_entries; i < current_size->num_entries; i++) {
+ 			writel(agp_bridge->scratch_page, intel_private.gtt+i);
+ 		}
+ 		readl(intel_private.gtt+i-1);	/* PCI Posting. */
+@@ -1309,8 +1308,6 @@
+ 	if (!intel_private.gtt)
+ 		return -ENOMEM;
+ 
+-	intel_private.gtt_total_size = gtt_map_size / 4;
+-
+ 	temp &= 0xfff80000;
+ 
+ 	intel_private.registers = ioremap(temp, 128 * 4096);
+@@ -1398,8 +1395,6 @@
+ 	if (!intel_private.gtt)
+ 		return -ENOMEM;
+ 
+-	intel_private.gtt_total_size = gtt_size / 4;
+-
+ 	intel_private.registers = ioremap(temp, 128 * 4096);
+ 	if (!intel_private.registers) {
+ 		iounmap(intel_private.gtt);

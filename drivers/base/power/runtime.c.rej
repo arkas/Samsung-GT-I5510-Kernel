@@ -1,0 +1,11 @@
+--- drivers/base/power/runtime.c
++++ drivers/base/power/runtime.c
+@@ -777,7 +777,7 @@
+ 	}
+ 
+ 	if (parent) {
+-		spin_lock_nested(&parent->power.lock, SINGLE_DEPTH_NESTING);
++		spin_lock(&parent->power.lock);
+ 
+ 		/*
+ 		 * It is invalid to put an active child under a parent that is

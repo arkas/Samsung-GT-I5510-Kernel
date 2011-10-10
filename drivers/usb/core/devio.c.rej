@@ -1,0 +1,14 @@
+--- drivers/usb/core/devio.c
++++ drivers/usb/core/devio.c
+@@ -1312,9 +1312,9 @@
+ 	void __user *addr = as->userurb;
+ 	unsigned int i;
+ 
+-	if (as->userbuffer && urb->actual_length)
++	if (as->userbuffer)
+ 		if (copy_to_user(as->userbuffer, urb->transfer_buffer,
+-				 urb->actual_length))
++				 urb->transfer_buffer_length))
+ 			goto err_out;
+ 	if (put_user(as->status, &userurb->status))
+ 		goto err_out;

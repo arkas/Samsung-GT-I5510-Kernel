@@ -1,0 +1,11 @@
+--- drivers/block/pktcdvd.c
++++ drivers/block/pktcdvd.c
+@@ -322,7 +322,7 @@
+ 	pkt_kobj_remove(pd->kobj_stat);
+ 	pkt_kobj_remove(pd->kobj_wqueue);
+ 	if (class_pktcdvd)
+-		device_unregister(pd->dev);
++		device_destroy(class_pktcdvd, pd->pkt_dev);
+ }
+ 
+ 

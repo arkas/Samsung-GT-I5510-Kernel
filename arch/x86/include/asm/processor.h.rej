@@ -1,0 +1,11 @@
+--- arch/x86/include/asm/processor.h
++++ arch/x86/include/asm/processor.h
+@@ -180,7 +180,7 @@
+ 				unsigned int *ecx, unsigned int *edx)
+ {
+ 	/* ecx is often an input as well as an output. */
+-	asm volatile("cpuid"
++	asm("cpuid"
+ 	    : "=a" (*eax),
+ 	      "=b" (*ebx),
+ 	      "=c" (*ecx),

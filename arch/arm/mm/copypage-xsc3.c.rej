@@ -1,0 +1,20 @@
+--- arch/arm/mm/copypage-xsc3.c
++++ arch/arm/mm/copypage-xsc3.c
+@@ -34,7 +34,7 @@
+ {
+ 	asm("\
+ 	stmfd	sp!, {r4, r5, lr}		\n\
+-	mov	lr, %0				\n\
++	mov	lr, %2				\n\
+ 						\n\
+ 	pld	[r1, #0]			\n\
+ 	pld	[r1, #32]			\n\
+@@ -67,7 +67,7 @@
+ 						\n\
+ 	ldmfd	sp!, {r4, r5, pc}"
+ 	:
+-	: "I" (PAGE_SIZE / 64 - 1));
++	: "r" (kto), "r" (kfrom), "I" (PAGE_SIZE / 64 - 1));
+ }
+ 
+ void xsc3_mc_copy_user_highpage(struct page *to, struct page *from,

@@ -1,0 +1,10 @@
+--- arch/x86/kernel/apic/io_apic.c
++++ arch/x86/kernel/apic/io_apic.c
+@@ -3157,7 +3157,6 @@
+ 			continue;
+ 
+ 		desc_new = move_irq_desc(desc_new, node);
+-		cfg_new = desc_new->chip_data;
+ 
+ 		if (__assign_irq_vector(new, cfg_new, apic->target_cpus()) == 0)
+ 			irq = new;

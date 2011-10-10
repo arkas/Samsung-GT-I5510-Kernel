@@ -1,0 +1,12 @@
+--- drivers/hwmon/hp_accel.c
++++ drivers/hwmon/hp_accel.c
+@@ -324,8 +324,8 @@
+ 	lis3lv02d_joystick_disable();
+ 	lis3lv02d_poweroff(&lis3_dev);
+ 
+-	flush_work(&hpled_led.work);
+ 	led_classdev_unregister(&hpled_led.led_classdev);
++	flush_work(&hpled_led.work);
+ 
+ 	return lis3lv02d_remove_fs(&lis3_dev);
+ }

@@ -1,0 +1,20 @@
+--- arch/sparc/kernel/central.c
++++ arch/sparc/kernel/central.c
+@@ -99,7 +99,7 @@
+ 
+ 	p->leds_resource.start = (unsigned long)
+ 		(p->clock_regs + CLOCK_CTRL);
+-	p->leds_resource.end = p->leds_resource.end;
++	p->leds_resource.end = p->leds_resource.start;
+ 	p->leds_resource.name = "leds";
+ 
+ 	p->leds_pdev.name = "sunfire-clockboard-leds";
+@@ -194,7 +194,7 @@
+ 	if (!p->central) {
+ 		p->leds_resource.start = (unsigned long)
+ 			(p->pregs + FHC_PREGS_CTRL);
+-		p->leds_resource.end = p->leds_resource.end;
++		p->leds_resource.end = p->leds_resource.start;
+ 		p->leds_resource.name = "leds";
+ 
+ 		p->leds_pdev.name = "sunfire-fhc-leds";

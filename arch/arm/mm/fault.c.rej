@@ -1,0 +1,12 @@
+--- arch/arm/mm/fault.c
++++ arch/arm/mm/fault.c
+@@ -386,6 +386,9 @@
+ 	if (addr < TASK_SIZE)
+ 		return do_page_fault(addr, fsr, regs);
+ 
++	if (user_mode(regs))
++		goto bad_area;
++
+ 	index = pgd_index(addr);
+ 
+ 	/*

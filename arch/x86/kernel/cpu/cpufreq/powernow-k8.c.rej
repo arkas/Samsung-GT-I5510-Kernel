@@ -1,0 +1,19 @@
+--- arch/x86/kernel/cpu/cpufreq/powernow-k8.c
++++ arch/x86/kernel/cpu/cpufreq/powernow-k8.c
+@@ -1351,7 +1351,6 @@
+ 
+ 	kfree(data->powernow_table);
+ 	kfree(data);
+-	per_cpu(powernow_data, pol->cpu) = NULL;
+ 
+ 	return 0;
+ }
+@@ -1371,7 +1370,7 @@
+ 	int err;
+ 
+ 	if (!data)
+-		return 0;
++		return -EINVAL;
+ 
+ 	smp_call_function_single(cpu, query_values_on_cpu, &err, true);
+ 	if (err)

@@ -1,0 +1,69 @@
+--- fs/ext4/inode.c
++++ fs/ext4/inode.c
+@@ -1043,12 +1041,17 @@
+ 	return err;
+ }
+ 
+-#ifdef CONFIG_QUOTA
+-qsize_t *ext4_get_reserved_space(struct inode *inode)
++qsize_t ext4_get_reserved_space(struct inode *inode)
+ {
+-	return &EXT4_I(inode)->i_reserved_quota;
++	unsigned long long total;
++
++	spin_lock(&EXT4_I(inode)->i_block_reservation_lock);
++	total = EXT4_I(inode)->i_reserved_data_blocks +
++		EXT4_I(inode)->i_reserved_meta_blocks;
++	spin_unlock(&EXT4_I(inode)->i_block_reservation_lock);
++
++	return total;
+ }
+-#endif
+ /*
+  * Calculate the number of metadata blocks need to reserve
+  * to allocate @blocks for non extent file based file
+@@ -1841,17 +1834,19 @@
+ 
+ 	md_needed = mdblocks - EXT4_I(inode)->i_reserved_meta_blocks;
+ 	total = md_needed + nrblocks;
+-	spin_unlock(&EXT4_I(inode)->i_block_reservation_lock);
+ 
+ 	/*
+ 	 * Make quota reservation here to prevent quota overflow
+ 	 * later. Real quota accounting is done at pages writeout
+ 	 * time.
+ 	 */
+-	if (vfs_dq_reserve_block(inode, total))
++	if (vfs_dq_reserve_block(inode, total)) {
++		spin_unlock(&EXT4_I(inode)->i_block_reservation_lock);
+ 		return -EDQUOT;
++	}
+ 
+ 	if (ext4_claim_free_blocks(sbi, total)) {
++		spin_unlock(&EXT4_I(inode)->i_block_reservation_lock);
+ 		vfs_dq_release_reservation_block(inode, total);
+ 		if (ext4_should_retry_alloc(inode->i_sb, &retries)) {
+ 			yield();
+@@ -1859,11 +1854,10 @@
+ 		}
+ 		return -ENOSPC;
+ 	}
+-	spin_lock(&EXT4_I(inode)->i_block_reservation_lock);
+ 	EXT4_I(inode)->i_reserved_data_blocks += nrblocks;
+-	EXT4_I(inode)->i_reserved_meta_blocks += md_needed;
++	EXT4_I(inode)->i_reserved_meta_blocks = mdblocks;
++
+ 	spin_unlock(&EXT4_I(inode)->i_block_reservation_lock);
+-
+ 	return 0;       /* success */
+ }
+ 
+@@ -2782,7 +2776,7 @@
+ 	 * number of contiguous block. So we will limit
+ 	 * number of contiguous block to a sane value
+ 	 */
+-	if (!(EXT4_I(inode)->i_flags & EXT4_EXTENTS_FL) &&
++	if (!(inode->i_flags & EXT4_EXTENTS_FL) &&
+ 	    (max_blocks > EXT4_MAX_TRANS_DATA))
+ 		max_blocks = EXT4_MAX_TRANS_DATA;
+ 

@@ -1,0 +1,10 @@
+--- arch/x86/kernel/cpu/intel.c
++++ arch/x86/kernel/cpu/intel.c
+@@ -70,6 +70,7 @@
+ 	if (c->x86_power & (1 << 8)) {
+ 		set_cpu_cap(c, X86_FEATURE_CONSTANT_TSC);
+ 		set_cpu_cap(c, X86_FEATURE_NONSTOP_TSC);
++		set_cpu_cap(c, X86_FEATURE_TSC_RELIABLE);
+ 		sched_clock_stable = 1;
+ 	}
+ 

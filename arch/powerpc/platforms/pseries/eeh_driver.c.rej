@@ -1,0 +1,20 @@
+--- arch/powerpc/platforms/pseries/eeh_driver.c
++++ arch/powerpc/platforms/pseries/eeh_driver.c
+@@ -353,7 +353,7 @@
+ 		location = location ? location : "unknown";
+ 		printk(KERN_ERR "EEH: Error: Cannot find partition endpoint "
+ 		                "for location=%s pci addr=%s\n",
+-		        location, pci_name(event->dev));
++		        location, eeh_pci_name(event->dev));
+ 		return NULL;
+ 	}
+ 
+@@ -384,7 +384,7 @@
+ 		pci_str = pci_name (frozen_pdn->pcidev);
+ 		drv_str = pcid_name (frozen_pdn->pcidev);
+ 	} else {
+-		pci_str = pci_name (event->dev);
++		pci_str = eeh_pci_name(event->dev);
+ 		drv_str = pcid_name (event->dev);
+ 	}
+ 	

@@ -1,0 +1,11 @@
+--- arch/powerpc/platforms/pseries/eeh_event.c
++++ arch/powerpc/platforms/pseries/eeh_event.c
+@@ -80,7 +80,7 @@
+ 	eeh_mark_slot(event->dn, EEH_MODE_RECOVERING);
+ 
+ 	printk(KERN_INFO "EEH: Detected PCI bus error on device %s\n",
+-	       pci_name(event->dev));
++	       eeh_pci_name(event->dev));
+ 
+ 	pdn = handle_eeh_events(event);
+ 

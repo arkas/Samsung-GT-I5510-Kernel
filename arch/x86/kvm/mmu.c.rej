@@ -1,0 +1,24 @@
+--- arch/x86/kvm/mmu.c
++++ arch/x86/kvm/mmu.c
+@@ -477,7 +477,7 @@
+ 
+ 	addr = gfn_to_hva(kvm, gfn);
+ 	if (kvm_is_error_hva(addr))
+-		return PT_PAGE_TABLE_LEVEL;
++		return page_size;
+ 
+ 	down_read(&current->mm->mmap_sem);
+ 	vma = find_vma(current->mm, addr);
+@@ -515,9 +515,11 @@
+ 	if (host_level == PT_PAGE_TABLE_LEVEL)
+ 		return host_level;
+ 
+-	for (level = PT_DIRECTORY_LEVEL; level <= host_level; ++level)
++	for (level = PT_DIRECTORY_LEVEL; level <= host_level; ++level) {
++
+ 		if (has_wrprotected_page(vcpu->kvm, large_gfn, level))
+ 			break;
++	}
+ 
+ 	return level - 1;
+ }

@@ -1,0 +1,10 @@
+--- arch/arm/mach-pxa/include/mach/colibri.h
++++ arch/arm/mach-pxa/include/mach/colibri.h
+@@ -2,6 +2,7 @@
+ #define _COLIBRI_H_
+ 
+ #include <net/ax88796.h>
++#include <mach/mfp.h>
+ 
+ /*
+  * common settings for all modules

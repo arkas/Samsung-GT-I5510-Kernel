@@ -1,0 +1,12 @@
+--- mm/bounce.c
++++ mm/bounce.c
+@@ -115,8 +115,8 @@
+ 		 */
+ 		vfrom = page_address(fromvec->bv_page) + tovec->bv_offset;
+ 
+-		flush_dcache_page(tovec->bv_page);
+ 		bounce_copy_vec(tovec, vfrom);
++		flush_dcache_page(tovec->bv_page);
+ 	}
+ }
+ 

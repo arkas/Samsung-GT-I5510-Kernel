@@ -1,0 +1,13 @@
+--- fs/ext4/xattr.c
++++ fs/ext4/xattr.c
+@@ -988,10 +988,6 @@
+ 	if (error)
+ 		goto cleanup;
+ 
+-	error = ext4_journal_get_write_access(handle, is.iloc.bh);
+-	if (error)
+-		goto cleanup;
+-
+ 	if (EXT4_I(inode)->i_state & EXT4_STATE_NEW) {
+ 		struct ext4_inode *raw_inode = ext4_raw_inode(&is.iloc);
+ 		memset(raw_inode, 0, EXT4_SB(inode->i_sb)->s_inode_size);

@@ -1,0 +1,11 @@
+--- drivers/power/ds2760_battery.c
++++ drivers/power/ds2760_battery.c
+@@ -211,7 +211,7 @@
+ 	if (di->rem_capacity > 100)
+ 		di->rem_capacity = 100;
+ 
+-	if (di->current_uA >= 100L)
++	if (di->current_uA < -100L)
+ 		di->life_sec = -((di->accum_current_uAh - di->empty_uAh) * 36L)
+ 					/ (di->current_uA / 100L);
+ 	else

@@ -1,0 +1,11 @@
+--- drivers/media/common/tuners/mxl5007t.c
++++ drivers/media/common/tuners/mxl5007t.c
+@@ -196,7 +196,7 @@
+ 	i = j = 0;
+ 
+ 	while (reg_pair1[i].reg || reg_pair1[i].val) {
+-		while (reg_pair2[j].reg || reg_pair2[j].val) {
++		while (reg_pair2[j].reg || reg_pair2[j].reg) {
+ 			if (reg_pair1[i].reg != reg_pair2[j].reg) {
+ 				j++;
+ 				continue;

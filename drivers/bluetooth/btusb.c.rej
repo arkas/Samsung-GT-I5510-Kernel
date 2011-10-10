@@ -1,0 +1,10 @@
+--- drivers/bluetooth/btusb.c
++++ drivers/bluetooth/btusb.c
+@@ -307,7 +307,6 @@
+ 		return;
+ 
+ 	usb_anchor_urb(urb, &data->bulk_anchor);
+-	usb_mark_last_busy(data->udev);
+ 
+ 	err = usb_submit_urb(urb, GFP_ATOMIC);
+ 	if (err < 0) {

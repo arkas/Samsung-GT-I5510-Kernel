@@ -1,0 +1,12 @@
+--- arch/x86/kvm/i8254.c
++++ arch/x86/kvm/i8254.c
+@@ -465,9 +465,6 @@
+ 		return -EOPNOTSUPP;
+ 
+ 	addr &= KVM_PIT_CHANNEL_MASK;
+-	if (addr == 3)
+-		return 0;
+-
+ 	s = &pit_state->channels[addr];
+ 
+ 	mutex_lock(&pit_state->lock);

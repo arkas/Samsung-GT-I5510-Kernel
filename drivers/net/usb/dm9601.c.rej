@@ -1,0 +1,11 @@
+--- drivers/net/usb/dm9601.c
++++ drivers/net/usb/dm9601.c
+@@ -238,7 +238,7 @@
+ 		goto out;
+ 
+ 	dm_write_reg(dev, DM_SHARED_ADDR, phy ? (reg | 0x40) : reg);
+-	dm_write_reg(dev, DM_SHARED_CTRL, phy ? 0x1c : 0x14);
++	dm_write_reg(dev, DM_SHARED_CTRL, phy ? 0x1a : 0x12);
+ 
+ 	for (i = 0; i < DM_TIMEOUT; i++) {
+ 		u8 tmp;

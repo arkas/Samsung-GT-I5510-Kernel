@@ -1,0 +1,14 @@
+--- drivers/gpu/drm/i915/i915_gem.c
++++ drivers/gpu/drm/i915/i915_gem.c
+@@ -2243,10 +2221,7 @@
+ 	inode = obj->filp->f_path.dentry->d_inode;
+ 	mapping = inode->i_mapping;
+ 	for (i = 0; i < page_count; i++) {
+-		page = read_cache_page_gfp(mapping, i,
+-					   mapping_gfp_mask (mapping) |
+-					   __GFP_COLD |
+-					   gfpmask);
++		page = read_mapping_page(mapping, i, NULL);
+ 		if (IS_ERR(page)) {
+ 			ret = PTR_ERR(page);
+ 			i915_gem_object_put_pages(obj);

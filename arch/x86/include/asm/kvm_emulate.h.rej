@@ -1,0 +1,11 @@
+--- arch/x86/include/asm/kvm_emulate.h
++++ arch/x86/include/asm/kvm_emulate.h
+@@ -129,7 +129,7 @@
+ 	u8 seg_override;
+ 	unsigned int d;
+ 	unsigned long regs[NR_VCPU_REGS];
+-	unsigned long eip, eip_orig;
++	unsigned long eip;
+ 	/* modrm */
+ 	u8 modrm;
+ 	u8 modrm_mod;

@@ -1,0 +1,10 @@
+--- arch/powerpc/sysdev/fsl_rio.c
++++ arch/powerpc/sysdev/fsl_rio.c
+@@ -832,7 +832,6 @@
+ 	if (dsr & DOORBELL_DSR_QFI) {
+ 		pr_info("RIO: doorbell queue full\n");
+ 		out_be32(&priv->msg_regs->dsr, DOORBELL_DSR_QFI);
+-		goto out;
+ 	}
+ 
+ 	/* XXX Need to check/dispatch until queue empty */

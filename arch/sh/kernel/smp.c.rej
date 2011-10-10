@@ -1,0 +1,10 @@
+--- arch/sh/kernel/smp.c
++++ arch/sh/kernel/smp.c
+@@ -69,6 +69,7 @@
+ 	unsigned int cpu;
+ 	struct mm_struct *mm = &init_mm;
+ 
++	enable_mmu();
+ 	atomic_inc(&mm->mm_count);
+ 	atomic_inc(&mm->mm_users);
+ 	current->active_mm = mm;

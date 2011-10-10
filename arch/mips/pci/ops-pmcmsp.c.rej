@@ -1,0 +1,10 @@
+--- arch/mips/pci/ops-pmcmsp.c
++++ arch/mips/pci/ops-pmcmsp.c
+@@ -944,6 +944,7 @@
+ 	.pci_ops	= &msp_pci_ops,
+ 	.mem_resource	= &pci_mem_resource,
+ 	.mem_offset	= 0,
++	.io_map_base	= MSP_PCI_IOSPACE_BASE,
+ 	.io_resource	= &pci_io_resource,
+ 	.io_offset	= 0
+ };

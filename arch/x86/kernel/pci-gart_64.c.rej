@@ -1,0 +1,11 @@
+--- arch/x86/kernel/pci-gart_64.c
++++ arch/x86/kernel/pci-gart_64.c
+@@ -856,7 +856,7 @@
+ #endif
+ 	if (isdigit(*p) && get_option(&p, &arg))
+ 		iommu_size = arg;
+-	if (!strncmp(p, "fullflush", 9))
++	if (!strncmp(p, "fullflush", 8))
+ 		iommu_fullflush = 1;
+ 	if (!strncmp(p, "nofullflush", 11))
+ 		iommu_fullflush = 0;

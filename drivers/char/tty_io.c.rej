@@ -1,0 +1,13 @@
+--- drivers/char/tty_io.c
++++ drivers/char/tty_io.c
+@@ -1930,10 +1930,8 @@
+ 			pid = task_pid(current);
+ 			type = PIDTYPE_PID;
+ 		}
+-		get_pid(pid);
+ 		spin_unlock_irqrestore(&tty->ctrl_lock, flags);
+ 		retval = __f_setown(filp, pid, type, 0);
+-		put_pid(pid);
+ 		if (retval)
+ 			goto out;
+ 	} else {

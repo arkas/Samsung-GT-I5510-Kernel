@@ -1,0 +1,11 @@
+--- arch/powerpc/oprofile/op_model_cell.c
++++ arch/powerpc/oprofile/op_model_cell.c
+@@ -1077,7 +1077,7 @@
+ 		index = ENTRIES-1;
+ 
+ 	/* make sure index is valid */
+-	if ((index > ENTRIES) || (index < 0))
++	if ((index >= ENTRIES) || (index < 0))
+ 		index = ENTRIES-1;
+ 
+ 	return initial_lfsr[index];

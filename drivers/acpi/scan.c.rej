@@ -1,0 +1,12 @@
+--- drivers/acpi/scan.c
++++ drivers/acpi/scan.c
+@@ -1357,9 +1357,6 @@
+ {
+ 	struct acpi_bus_ops ops;
+ 
+-	if (!device)
+-		return -EINVAL;
+-
+ 	memset(&ops, 0, sizeof(ops));
+ 	ops.acpi_op_start = 1;
+ 

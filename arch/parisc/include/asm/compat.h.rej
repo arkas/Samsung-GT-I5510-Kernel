@@ -1,0 +1,11 @@
+--- arch/parisc/include/asm/compat.h
++++ arch/parisc/include/asm/compat.h
+@@ -146,7 +146,7 @@
+ 	return (u32)(unsigned long)uptr;
+ }
+ 
+-static __inline__ void __user *compat_alloc_user_space(long len)
++static __inline__ void __user *arch_compat_alloc_user_space(long len)
+ {
+ 	struct pt_regs *regs = &current->thread.regs;
+ 	return (void __user *)regs->gr[30];

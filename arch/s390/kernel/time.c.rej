@@ -1,0 +1,12 @@
+--- arch/s390/kernel/time.c
++++ arch/s390/kernel/time.c
+@@ -214,7 +214,8 @@
+ 	return &clocksource_tod;
+ }
+ 
+-void update_vsyscall(struct timespec *wall_time, struct clocksource *clock)
++void update_vsyscall(struct timespec *wall_time, struct clocksource *clock,
++		     u32 mult)
+ {
+ 	if (clock != &clocksource_tod)
+ 		return;

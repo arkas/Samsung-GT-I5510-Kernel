@@ -1,0 +1,11 @@
+--- arch/ia64/mm/tlb.c
++++ arch/ia64/mm/tlb.c
+@@ -120,7 +120,7 @@
+ 	ia64_invala();
+ 
+ 	for (;;) {
+-		asm volatile ("ld4.c.nc %0=[%1]" : "=r"(serve) : "r"(&ss->serve) : "memory");
++		asm volatile ("ld8.c.nc %0=[%1]" : "=r"(serve) : "r"(&ss->serve) : "memory");
+ 		if (time_before(t, serve))
+ 			return;
+ 		cpu_relax();

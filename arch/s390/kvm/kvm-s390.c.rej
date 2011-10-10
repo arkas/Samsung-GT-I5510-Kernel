@@ -1,0 +1,72 @@
+--- arch/s390/kvm/kvm-s390.c
++++ arch/s390/kvm/kvm-s390.c
+@@ -116,16 +116,10 @@
+ 
+ int kvm_dev_ioctl_check_extension(long ext)
+ {
+-	int r;
+-
+ 	switch (ext) {
+-	case KVM_CAP_S390_PSW:
+-		r = 1;
+-		break;
+ 	default:
+-		r = 0;
++		return 0;
+ 	}
+-	return r;
+ }
+ 
+ /* Section: vm related */
+@@ -425,10 +419,8 @@
+ 	vcpu_load(vcpu);
+ 	if (atomic_read(&vcpu->arch.sie_block->cpuflags) & CPUSTAT_RUNNING)
+ 		rc = -EBUSY;
+-	else {
+-		vcpu->run->psw_mask = psw.mask;
+-		vcpu->run->psw_addr = psw.addr;
+-	}
++	else
++		vcpu->arch.sie_block->gpsw = psw;
+ 	vcpu_put(vcpu);
+ 	return rc;
+ }
+@@ -516,6 +508,9 @@
+ 
+ 	switch (kvm_run->exit_reason) {
+ 	case KVM_EXIT_S390_SIEIC:
++		vcpu->arch.sie_block->gpsw.mask = kvm_run->s390_sieic.mask;
++		vcpu->arch.sie_block->gpsw.addr = kvm_run->s390_sieic.addr;
++		break;
+ 	case KVM_EXIT_UNKNOWN:
+ 	case KVM_EXIT_INTR:
+ 	case KVM_EXIT_S390_RESET:
+@@ -524,9 +519,6 @@
+ 		BUG();
+ 	}
+ 
+-	vcpu->arch.sie_block->gpsw.mask = kvm_run->psw_mask;
+-	vcpu->arch.sie_block->gpsw.addr = kvm_run->psw_addr;
+-
+ 	might_fault();
+ 
+ 	do {
+@@ -546,6 +538,8 @@
+ 		/* intercept cannot be handled in-kernel, prepare kvm-run */
+ 		kvm_run->exit_reason         = KVM_EXIT_S390_SIEIC;
+ 		kvm_run->s390_sieic.icptcode = vcpu->arch.sie_block->icptcode;
++		kvm_run->s390_sieic.mask     = vcpu->arch.sie_block->gpsw.mask;
++		kvm_run->s390_sieic.addr     = vcpu->arch.sie_block->gpsw.addr;
+ 		kvm_run->s390_sieic.ipa      = vcpu->arch.sie_block->ipa;
+ 		kvm_run->s390_sieic.ipb      = vcpu->arch.sie_block->ipb;
+ 		rc = 0;
+@@ -557,9 +551,6 @@
+ 		rc = 0;
+ 	}
+ 
+-	kvm_run->psw_mask     = vcpu->arch.sie_block->gpsw.mask;
+-	kvm_run->psw_addr     = vcpu->arch.sie_block->gpsw.addr;
+-
+ 	if (vcpu->sigset_active)
+ 		sigprocmask(SIG_SETMASK, &sigsaved, NULL);
+ 
